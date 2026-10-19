@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbi · 熄灯软件工厂</title>
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0d1117; color: #e6edf3; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .card {
+    max-width: 760px; width: 100%; background: #161b22; border: 1px solid #30363d;
+    border-radius: 16px; padding: 40px;
+  }
+  h1 { font-size: 26px; margin-bottom: 6px; }
+  .sub { color: #8b949e; margin-bottom: 28px; font-size: 14px; }
+  .badge {
+    display: inline-block; background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb;
+    border-radius: 999px; padding: 2px 12px; font-size: 12px; margin-bottom: 18px;
+  }
+  h2 { font-size: 15px; color: #58a6ff; margin: 22px 0 10px; }
+  ol, ul { padding-left: 22px; line-height: 1.9; font-size: 14px; }
+  code {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+    padding: 1px 6px; font-size: 13px; color: #79c0ff;
+  }
+  pre {
+    background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+    padding: 12px 16px; overflow-x: auto; font-size: 12.5px; line-height: 1.7; margin: 8px 0;
+  }
+  pre code { border: none; padding: 0; background: none; }
+  .note { color: #d29922; font-size: 13px; margin-top: 18px; line-height: 1.7; }
+  a { color: #58a6ff; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  td { padding: 6px 8px; border-bottom: 1px solid #21262d; vertical-align: top; }
+  td:first-child { white-space: nowrap; color: #79c0ff; font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="badge">后台服务 · 无独立 Web 界面</span>
+  <h1>Orbi 正在运行</h1>
+  <p class="sub">熄灯软件工厂：给 GitHub Issue 打上 <code>ai-ready</code> 标签，自动获得经过独立评审、合并的 PR 和打 tag 的 Release。</p>
+
+  <h2>快速开始</h2>
+  <ol>
+    <li>在安装时填写的<strong>任务池仓库</strong>（<code>OWNER/REPO</code>）里创建一个 Issue，用两种形状之一描述任务：<br>修复：<em>「when X, should Y, actually Z」</em>；变更：<em>「when X, the user should be able to Y; today they cannot because Z」</em></li>
+    <li>给 Issue 打上 <code>ai-ready</code> 标签（runner 首次启动时已自动创建 12 个平台标签）</li>
+    <li>两个 tick 内（timer 每 5 分钟）Issue 将自动流转 <code>ai-in-progress</code> → <code>ai-pr-opened</code>，经独立评审后合并</li>
+  </ol>
+
+  <h2>查看运行状态（SSH 到设备后执行）</h2>
+  <pre><code>docker exec -u orbi -e XDG_RUNTIME_DIR=/run/user/1000 orbi \
+  journalctl --user -u orbi-tick@timer -n 50 --no-pager</code></pre>
+  <table>
+    <tr><td>orbi status</td><td>队列与当前任务</td></tr>
+    <tr><td>orbi doctor</td><td>部署体检</td></tr>
+    <tr><td>docker logs orbi</td><td>setup 结果与 systemd 控制台</td></tr>
+  </table>
+
+  <h2>常用标签</h2>
+  <table>
+    <tr><td>ai-ready</td><td>执行开关（你打）</td></tr>
+    <tr><td>ai-in-progress / ai-pr-opened / ai-merged</td><td>交付状态（runner 管理）</td></tr>
+    <tr><td>ai-fix-needed / ai-blocked</td><td>需人介入（runner 管理）</td></tr>
+    <tr><td>ai-ready + ai-release</td><td>发布任务：正文声明 <code>## Release</code> 块（version / base_branch / scope）</td></tr>
+  </table>
+
+  <p class="note">修改配置（GitHub Token、模型 Provider）：重新部署应用并更新设置向导参数即可，entrypoint 每次启动都会从注入变量重新生成凭据文件。完整文档见 <a href="https://docs.orbi.build/zh/" target="_blank" rel="noopener">docs.orbi.build</a>。</p>
+</div>
+</body>
+</html>

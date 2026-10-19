@@ -1,0 +1,57 @@
+application:
+  subdomain: orbi
+  background_task: true
+  multi_instance: false
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://guide:8082/
+
+services:
+  # Orbi runner：systemd 作为 PID 1 的单容器后台服务（无 Web UI）
+  orbi:
+    # upstream: ghcr.io/orbi-build/orbi:0.7.7
+    image: ghcr.nju.edu.cn/orbi-build/orbi:0.7.7@sha256:ffe26386a67bc12ad6c613bb7ce610b41c31a0ac78534b8c5b1c6843890f1e76
+    environment:
+      - TZ=Asia/Shanghai
+      - GH_TOKEN={{ .U.gh_token }}
+      - ORBI_SOURCE_REPO={{ .U.source_repo }}
+      - ORBI_BASE_BRANCH={{ .U.base_branch }}
+      - ORBI_PI_PROVIDER={{ .U.pi_provider }}
+      - ORBI_PI_MODEL={{ .U.pi_model }}
+      - ORBI_PI_BASE_URL={{ .U.pi_base_url }}
+      - ORBI_PI_API_KEY={{ .U.pi_api_key }}
+      - ORBI_PI_API={{ .U.pi_api }}
+      - ORBI_PI_CONTEXT_WINDOW={{ .U.pi_context_window }}
+      - ORBI_PI_MAX_TOKENS={{ .U.pi_max_tokens }}
+    binds:
+      # deploy home：orbi checkout、orbi.toml、.orbi/ 凭据与运行时状态
+      - /lzcapp/var/orbi/deploy:/orbi
+      # 交付 workspace：任务池克隆与 worktree
+      - /lzcapp/var/orbi/work:/work
+      # systemd 需要 host cgroup（上游要求 --cgroupns=host + rw 挂载）
+      - /sys/fs/cgroup:/sys/fs/cgroup
+    tmpfs:
+      - /run
+      - /tmp
+    depends_on:
+      - guide
+
+  # 静态引导页（Orbi 无自带 Web UI）
+  guide:
+    # upstream: nginx:alpine（静态资源由包内容提供）
+    image: docker.1ms.run/library/nginx:alpine
+    binds:
+      - /lzcapp/pkg/content:/usr/share/nginx/html:ro
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://127.0.0.1:8082/
+      interval: 30s
+      timeout: 3s
+      retries: 3

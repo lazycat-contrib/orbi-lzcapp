@@ -1,0 +1,15 @@
+package: community.lazycat.app.orbi
+version: 0.7.7
+name: Orbi
+description: "Open-source, self-hostable lights-out software factory for the agent era: label a GitHub Issue, get an independently reviewed, merged PR and a tagged release"
+min_os_version: 1.5.0
+author: orbi-build
+license: AGPL-3.0
+homepage: https://github.com/orbi-build/orbi
+locales:
+  zh:
+    name: "Orbi"
+    description: "熄灯软件工厂：给 GitHub Issue 打上 ai-ready 标签，自动获得经过独立评审、合并的 PR 和打 tag 的 Release"
+  en:
+    name: "Orbi"
+    description: "Self-hostable lights-out software factory: label an issue, get a reviewed merged PR"

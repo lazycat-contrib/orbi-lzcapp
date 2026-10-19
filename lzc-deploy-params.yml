@@ -1,0 +1,94 @@
+params:
+  - id: gh_token
+    type: secret
+    name: "GitHub Token"
+    description: "GitHub token with write access to the task-pool repo (classic token with repo scope, or fine-grained with Issues/PR/Contents read+write)"
+    default_value: ""
+    optional: false
+  - id: source_repo
+    type: string
+    name: "Task Pool Repo"
+    description: "GitHub repository in OWNER/REPO form, used as the task pool"
+    default_value: ""
+    optional: false
+  - id: base_branch
+    type: string
+    name: "Base Branch"
+    description: "Delivery base branch"
+    default_value: "main"
+    optional: true
+  - id: pi_provider
+    type: string
+    name: "Pi Provider"
+    description: "Model provider id, e.g. deepseek. Set together with Model / Base URL / API Key (all four or none)"
+    default_value: ""
+    optional: true
+  - id: pi_model
+    type: string
+    name: "Pi Model"
+    description: "Model id, e.g. deepseek-chat"
+    default_value: ""
+    optional: true
+  - id: pi_base_url
+    type: string
+    name: "Pi Base URL"
+    description: "OpenAI-compatible endpoint, e.g. https://api.deepseek.com"
+    default_value: ""
+    optional: true
+  - id: pi_api_key
+    type: secret
+    name: "Pi API Key"
+    description: "API key for the model provider"
+    default_value: ""
+    optional: true
+  - id: pi_api
+    type: string
+    name: "Pi API Protocol"
+    description: "Provider API protocol; default openai-completions"
+    default_value: "openai-completions"
+    optional: true
+  - id: pi_context_window
+    type: string
+    name: "Pi Context Window"
+    description: "Context window size; default 128000"
+    default_value: "128000"
+    optional: true
+  - id: pi_max_tokens
+    type: string
+    name: "Pi Max Tokens"
+    description: "Max output tokens; default 16384"
+    default_value: "16384"
+    optional: true
+
+locales:
+  zh:
+    gh_token:
+      name: "GitHub Token"
+      description: "对任务池仓库有写权限的 GitHub 令牌（classic token 带 repo scope，或 fine-grained 勾选 Issues/PR/Contents 读写）"
+    source_repo:
+      name: "任务池仓库"
+      description: "GitHub 仓库，OWNER/REPO 形式，作为任务池"
+    base_branch:
+      name: "基准分支"
+      description: "交付基准分支，默认 main"
+    pi_provider:
+      name: "Pi Provider"
+      description: "模型 provider 标识（如 deepseek）。须与模型/端点/API Key 四项同时填写或同时留空"
+    pi_model:
+      name: "Pi 模型"
+      description: "模型 ID（如 deepseek-chat）"
+    pi_base_url:
+      name: "Pi 端点"
+      description: "OpenAI 兼容端点（如 https://api.deepseek.com）"
+    pi_api_key:
+      name: "Pi API Key"
+      description: "模型 provider 的 API 密钥"
+    pi_api:
+      name: "Pi API 协议"
+      description: "Provider API 协议，默认 openai-completions"
+    pi_context_window:
+      name: "Pi 上下文窗口"
+      description: "上下文窗口大小，默认 128000"
+    pi_max_tokens:
+      name: "Pi 最大输出"
+      description: "最大输出 token 数，默认 16384"
