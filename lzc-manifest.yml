@@ -7,12 +7,11 @@ application:
   upstreams:
     - location: /
       backend: http://guide:8082/
-
 services:
   # Orbi runner：systemd 作为 PID 1 的单容器后台服务（无 Web UI）
   orbi:
     # upstream: ghcr.io/orbi-build/orbi:0.7.7
-    image: ghcr.nju.edu.cn/orbi-build/orbi:0.7.7@sha256:ffe26386a67bc12ad6c613bb7ce610b41c31a0ac78534b8c5b1c6843890f1e76
+    image: ghcr.nju.edu.cn/orbi-build/orbi:0.7.7
     environment:
       - TZ=Asia/Shanghai
       - GH_TOKEN={{ .U.gh_token }}
@@ -37,7 +36,6 @@ services:
       - /tmp
     depends_on:
       - guide
-
   # 静态引导页（Orbi 无自带 Web UI）
   guide:
     # upstream: nginx:alpine（静态资源由包内容提供）
