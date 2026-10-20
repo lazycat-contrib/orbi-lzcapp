@@ -1,5 +1,5 @@
 package: community.lazycat.app.orbi
-version: 0.7.7
+version: 0.7.12
 name: Orbi
 description: "Open-source, self-hostable lights-out software factory for the agent era: label a GitHub Issue, get an independently reviewed, merged PR and a tagged release"
 min_os_version: 1.5.0
