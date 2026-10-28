@@ -10,8 +10,8 @@ application:
 services:
   # Orbi runner：systemd 作为 PID 1 的单容器后台服务（无 Web UI）
   orbi:
-    # upstream: ghcr.io/orbi-build/orbi:0.7.19
-    image: ghcr.nju.edu.cn/orbi-build/orbi:0.7.19
+    # upstream: ghcr.io/orbi-build/orbi:0.7.24
+    image: ghcr.nju.edu.cn/orbi-build/orbi:0.7.24
     environment:
       - TZ=Asia/Shanghai
       - GH_TOKEN={{ .U.gh_token }}
